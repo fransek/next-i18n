@@ -1,22 +1,21 @@
 {
     "name": "@fransekman/next-i18n",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "author": "Frans Ekman <fransedvinekman@gmail.com>",
     "license": "MIT",
-    "description": "A tiny state management library for React.",
+    "description": "A simple i18n library for Next.js",
     "keywords": [
-        "store",
-        "state",
+        "next",
+        "i18n",
         "react",
-        "reducer",
-        "redux"
+        "typescript"
     ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/fransek/store"
+        "url": "git+https://github.com/fransek/next-i18n"
     },
     "bugs": {
-        "url": "https://github.com/fransek/store/issues"
+        "url": "https://github.com/fransek/next-i18n/issues"
     },
     "files": [
         "dist"

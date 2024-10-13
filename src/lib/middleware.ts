@@ -2,16 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 
 interface Options<T extends Readonly<string[]>> {
     locales: T;
-    defaultLocale: T[number];
+    default: T[number];
 }
 
 export const isValidLocale = (
     validLocales: Readonly<string[]>,
-    locale?: unknown,
-) => !!locale && validLocales.includes(locale as string);
+    locale?: string,
+) => !!locale && validLocales.includes(locale);
 
 export const i18nMiddleware =
-    <T extends Readonly<string[]>>({ locales, defaultLocale }: Options<T>) =>
+    <T extends Readonly<string[]>>({
+        locales,
+        default: defaultLocale,
+    }: Options<T>) =>
     (request: NextRequest, response?: NextResponse): NextResponse => {
         response ||= NextResponse.next({
             request: {
