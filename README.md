@@ -1,6 +1,13 @@
 # @fransekman/store
 
+## Setup
+
+```bash
+npm install @fransekman/next-i18n
+```
+
 ```ts
+// middleware.ts
 import { i18nMiddleware } from "@fransekman/next-i18n";
 
 export default i18nMiddleware({
@@ -9,10 +16,19 @@ export default i18nMiddleware({
 });
 ```
 
+```
+src/
+|-- app/
+|   |-- [locale]/
+|   |   |-- layout.tsx
+|   |   |-- page.tsx
+|-- middleware.ts
+```
+
 ## locale()
 
-The locale function returns the current locale on the server.
+Returns the current locale on the server.
 
 ## useLocale()
 
-The useLocale hook returns the current locale on the client.
+Returns the current locale on the client.
