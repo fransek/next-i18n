@@ -1,14 +1,14 @@
-# @fransekman/store
+# fransek-next-i18n
 
 ## Setup
 
 ```bash
-npm install @fransekman/next-i18n
+npm install fransek-next-i18n
 ```
 
 ```ts
 // middleware.ts
-import { i18nMiddleware } from "@fransekman/next-i18n";
+import { i18nMiddleware } from "fransek-next-i18n";
 
 export default i18nMiddleware({
     locales: ["en", "sv", "es", "fr"] as const,
