@@ -1,9 +1,15 @@
 # @fransek/next-i18n
 
+[![Version](https://img.shields.io/npm/v/@fransek/next-i18n)](https://npmjs.com/package/@fransek/next-i18n)
+[![Downloads](https://img.shields.io/npm/dm/@fransek/next-i18n.svg)](https://npmjs.com/package/@fransek/next-i18n)
+[![Minzipped size](https://img.shields.io/bundlephobia/minzip/@fransek/next-i18n)](https://bundlephobia.com/package/@fransek/next-i18n)
+
+A simple i18n library for Next.js.
+
 ## Setup
 
 ```bash
-npm install @fransek/next-i18n
+npm i @fransek/next-i18n
 ```
 
 ```ts
