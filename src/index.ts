@@ -1,3 +1,3 @@
-export const greet = (name: string) => {
-  console.log(`Hello, ${name}!`);
-};
+export * from "./lib/useLocale";
+export * from "./lib/middleware";
+export * from "./lib/locale";
