@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextMiddleware, NextResponse } from "next/server";
 import { isValidLocale } from "./internals";
 
 interface Options<T extends Readonly<string[]>> {
@@ -6,13 +6,12 @@ interface Options<T extends Readonly<string[]>> {
   default: T[number];
 }
 
-export const i18nMiddleware =
-  <T extends Readonly<string[]>>({
-    locales,
-    default: defaultLocale,
-  }: Options<T>) =>
-  (request: NextRequest, response?: NextResponse): NextResponse => {
-    response ||= NextResponse.next({
+export const i18nMiddleware = <T extends Readonly<string[]>>({
+  locales,
+  default: defaultLocale,
+}: Options<T>) =>
+  ((request): NextResponse => {
+    let response = NextResponse.next({
       request: {
         headers: request.headers,
       },
@@ -66,4 +65,4 @@ export const i18nMiddleware =
     return NextResponse.redirect(request.nextUrl, {
       headers: response.headers,
     });
-  };
+  }) satisfies NextMiddleware;
