@@ -93,7 +93,7 @@ packages:
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@fransek/next-i18n@file:temp/fransek-next-i18n-0.1.1.tgz':
-    resolution: {integrity: sha512-bPq/y+LZtdiVgzfoGCx6U3qME8q1AYd8FyCf29qYva2bFK4CuJz8X/HSrOJXbqnQvzi1zIcLJHIkskgmLxKZhA==, tarball: file:temp/fransek-next-i18n-0.1.1.tgz}
+    resolution: {integrity: sha512-0Rgj/5tCIl/uynGS09WxXN6l64qerLPXGri13oZm+46rsBUm8fJXHdut+hgbgGQ7x1GQ1dUoVI7ebgrJX9F7fw==, tarball: file:temp/fransek-next-i18n-0.1.1.tgz}
     version: 0.1.1
     peerDependencies:
       next: '>=15.0.0'

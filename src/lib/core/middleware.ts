@@ -1,4 +1,9 @@
-import { NextMiddleware, NextResponse } from "next/server";
+import {
+  NextFetchEvent,
+  NextMiddleware,
+  NextRequest,
+  NextResponse,
+} from "next/server";
 import { isValidLocale } from "../internals/internals";
 
 export interface I18nConfig<T extends string[], U extends T[number]> {
@@ -6,16 +11,12 @@ export interface I18nConfig<T extends string[], U extends T[number]> {
   default: U;
 }
 
-export const i18nMiddleware = <T extends string[], U extends T[number]>({
-  locales,
-  default: defaultLocale,
-}: I18nConfig<T, U>) =>
-  ((request): NextResponse => {
-    let response = NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    });
+export const i18nMiddleware = <T extends string[], U extends T[number]>(
+  { locales, default: defaultLocale }: I18nConfig<T, U>,
+  middleware?: NextMiddleware,
+) =>
+  (async (request, event): Promise<NextResponse> => {
+    const response = await executeMiddleware(middleware, request, event);
 
     const { pathname } = request.nextUrl;
     const localeParam = pathname.split("/")[1];
@@ -37,10 +38,9 @@ export const i18nMiddleware = <T extends string[], U extends T[number]>({
     // if the cookie is set and valid, but the locale is not in the URL, redirect to the correct locale
     if (isValidLocale(locales, localeCookie)) {
       request.nextUrl.pathname = `/${localeCookie}${pathname}`;
-      response = NextResponse.redirect(request.nextUrl, {
+      return NextResponse.redirect(request.nextUrl, {
         headers: response.headers,
       });
-      return response;
     }
 
     // if no locale is set through the URL or cookies, check the accept-language header
@@ -66,3 +66,21 @@ export const i18nMiddleware = <T extends string[], U extends T[number]>({
       headers: response.headers,
     });
   }) satisfies NextMiddleware;
+
+const executeMiddleware = async (
+  middleware: NextMiddleware | undefined,
+  request: NextRequest,
+  event: NextFetchEvent,
+): Promise<NextResponse> => {
+  const res = await middleware?.(request, event);
+
+  if (!res) {
+    return NextResponse.next({
+      request: {
+        headers: request.headers,
+      },
+    });
+  }
+
+  return NextResponse.next(res);
+};

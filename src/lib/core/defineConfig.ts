@@ -1,3 +1,4 @@
+import { NextMiddleware } from "next/server";
 import { useContent } from "../hooks/useContent";
 import { useLocale } from "../hooks/useLocale";
 import { getContent } from "../utils/getContent";
@@ -16,7 +17,8 @@ export const defineConfig = <T extends string[], U extends T[number]>(
   return {
     locales: config.locales,
     defaultLocale: config.default,
-    middleware: () => i18nMiddleware(config),
+    middleware: (middleware?: NextMiddleware) =>
+      i18nMiddleware(config, middleware),
     getLocale: getLocale<Locale>,
     getContent: <TContent>(content: Localized<TContent>) =>
       getContent<Locale, TContent>(content),
