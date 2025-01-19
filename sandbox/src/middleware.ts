@@ -1,9 +1,6 @@
-import { i18nMiddleware } from "@fransek/next-i18n";
+import i18n from "./lib/i18n";
 
-export default i18nMiddleware({
-  locales: ["en", "sv", "es", "fr"] as const,
-  default: "en",
-});
+export default i18n.middleware();
 
 export const config = {
   matcher: [

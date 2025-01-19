@@ -1,15 +1,15 @@
 import { NextMiddleware, NextResponse } from "next/server";
-import { isValidLocale } from "./internals";
+import { isValidLocale } from "../internals/internals";
 
-interface Options<T extends Readonly<string[]>> {
-  locales: T;
-  default: T[number];
+export interface I18nConfig<T extends string[], U extends T[number]> {
+  locales: Readonly<T>;
+  default: U;
 }
 
-export const i18nMiddleware = <T extends Readonly<string[]>>({
+export const i18nMiddleware = <T extends string[], U extends T[number]>({
   locales,
   default: defaultLocale,
-}: Options<T>) =>
+}: I18nConfig<T, U>) =>
   ((request): NextResponse => {
     let response = NextResponse.next({
       request: {
