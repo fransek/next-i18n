@@ -8,11 +8,11 @@ import { isValidLocale } from "../internals/internals";
 
 export interface I18nConfig<T extends string[], U extends T[number]> {
   locales: Readonly<T>;
-  default: U;
+  defaultLocale: U;
 }
 
 export const i18nMiddleware = <T extends string[], U extends T[number]>(
-  { locales, default: defaultLocale }: I18nConfig<T, U>,
+  { locales, defaultLocale }: I18nConfig<T, U>,
   middleware?: NextMiddleware,
 ) =>
   (async (request, event): Promise<NextResponse> => {

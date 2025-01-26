@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@fransek/next-i18n": "file:temp/fransek-next-i18n-0.1.1.tgz",
+    "@fransek/next-i18n": "file:temp/fransek-next-i18n-0.2.0.tgz",
     "next": "15.1.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

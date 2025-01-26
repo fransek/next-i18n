@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@fransek/next-i18n':
-        specifier: file:temp/fransek-next-i18n-0.1.1.tgz
-        version: file:temp/fransek-next-i18n-0.1.1.tgz(next@15.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
+        specifier: file:temp/fransek-next-i18n-0.2.0.tgz
+        version: file:temp/fransek-next-i18n-0.2.0.tgz(next@15.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))
       next:
         specifier: 15.1.5
         version: 15.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -92,9 +92,9 @@ packages:
     resolution: {integrity: sha512-lB05FkqEdUg2AA0xEbUz0SnkXT1LcCTa438W4IWTUh4hdOnVbQyOJ81OrDXsJk/LSiJHubgGEFoR5EHq1NsH1A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@fransek/next-i18n@file:temp/fransek-next-i18n-0.1.1.tgz':
-    resolution: {integrity: sha512-0Rgj/5tCIl/uynGS09WxXN6l64qerLPXGri13oZm+46rsBUm8fJXHdut+hgbgGQ7x1GQ1dUoVI7ebgrJX9F7fw==, tarball: file:temp/fransek-next-i18n-0.1.1.tgz}
-    version: 0.1.1
+  '@fransek/next-i18n@file:temp/fransek-next-i18n-0.2.0.tgz':
+    resolution: {integrity: sha512-c0A9DEe0hp9nhSaj6LyeNKTiMbO5TnDHcIT1XHdecEaA3AHUj9wlZ/NEInMMBJY823BhgZUiHYPuk9iIrL6K4A==, tarball: file:temp/fransek-next-i18n-0.2.0.tgz}
+    version: 0.2.0
     peerDependencies:
       next: '>=15.0.0'
 
@@ -1727,7 +1727,7 @@ snapshots:
       '@eslint/core': 0.10.0
       levn: 0.4.1
 
-  '@fransek/next-i18n@file:temp/fransek-next-i18n-0.1.1.tgz(next@15.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
+  '@fransek/next-i18n@file:temp/fransek-next-i18n-0.2.0.tgz(next@15.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0))':
     dependencies:
       next: 15.1.5(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
 

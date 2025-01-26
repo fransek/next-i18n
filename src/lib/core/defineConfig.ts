@@ -1,30 +1,33 @@
 import { NextMiddleware } from "next/server";
-import { useContent } from "../hooks/useContent";
-import { useLocale } from "../hooks/useLocale";
+import { LocalizedContent } from "../types";
 import { getContent } from "../utils/getContent";
 import { getLocale } from "../utils/getLocale";
 import { I18nConfig, i18nMiddleware } from "./middleware";
 
-export const defineConfig = <T extends string[], U extends T[number]>(
-  config: I18nConfig<T, U>,
-) => {
-  type Locale = T[number];
+export type I18nAPI<
+  TLocale extends string[],
+  TDefault extends TLocale[number],
+> = Readonly<{
+  locales: TLocale;
+  defaultLocale: TDefault;
+  middleware: (middleware?: NextMiddleware) => NextMiddleware;
+  getLocale: () => Promise<TLocale[number]>;
+  getContent: <T>(
+    content: LocalizedContent<T, TLocale[number], TDefault>,
+  ) => Promise<T>;
+}>;
 
-  type Localized<T> = {
-    [key in Locale]: T;
-  };
-
-  return {
-    locales: config.locales,
-    defaultLocale: config.default,
+export const defineConfig = <
+  TLocale extends string[],
+  TDefault extends TLocale[number],
+>(
+  config: I18nConfig<TLocale, TDefault>,
+): I18nAPI<TLocale, TDefault> =>
+  ({
+    ...config,
     middleware: (middleware?: NextMiddleware) =>
       i18nMiddleware(config, middleware),
-    getLocale: getLocale<Locale>,
-    getContent: <TContent>(content: Localized<TContent>) =>
-      getContent<Locale, TContent>(content),
-    useLocale: useLocale<Locale>,
-    useContent: <TContent>(content: Localized<TContent>) =>
-      useContent<Locale, TContent>(content),
-    $locale: undefined as unknown as Locale,
-  };
-};
+    getLocale: getLocale<TLocale[number]>,
+    getContent: <T>(content: LocalizedContent<T, TLocale[number], TDefault>) =>
+      getContent(config.defaultLocale, content),
+  }) as const;

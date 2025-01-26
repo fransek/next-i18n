@@ -1,11 +1,11 @@
 "use client";
 
-import i18n from "@/lib/i18n";
+import { useContent, useLocale } from "@/lib/i18n/client";
 import { greeting } from "@/lib/text";
 
 export const ClientLocale = () => {
-  const locale = i18n.useLocale();
-  const text = i18n.useContent(greeting);
+  const locale = useLocale();
+  const text = useContent(greeting);
 
   return (
     <div>

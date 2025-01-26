@@ -5,11 +5,14 @@ import { i18nMiddleware } from "./middleware";
 describe("i18nMiddleware", () => {
   const locales = ["en", "fr", "es"] as const;
   const defaultLocale = "en";
-  const middleware = i18nMiddleware({ locales, default: defaultLocale }, () => {
-    const response = NextResponse.next();
-    response.cookies.set("foo", "bar");
-    return response;
-  });
+  const middleware = i18nMiddleware(
+    { locales, defaultLocale: defaultLocale },
+    () => {
+      const response = NextResponse.next();
+      response.cookies.set("foo", "bar");
+      return response;
+    },
+  );
   const event = {} as NextFetchEvent;
 
   const createRequest = (
