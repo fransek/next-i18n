@@ -1,6 +1,6 @@
 {
   "name": "@fransek/next-i18n",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Frans Ekman <fransedvinekman@gmail.com>",
   "license": "MIT",
   "description": "A simple i18n library for Next.js",
