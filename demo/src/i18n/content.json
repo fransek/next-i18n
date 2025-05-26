@@ -1,0 +1,11 @@
+{
+  "en": {
+    "greeting": "Hello from JSON!"
+  },
+  "it": {
+    "greeting": "Ciao dal JSON!"
+  },
+  "sv": {
+    "greeting": "Hej från JSON!"
+  }
+}

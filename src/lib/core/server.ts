@@ -2,14 +2,13 @@ import { NextMiddleware } from "next/server";
 import { LocalizedContent } from "../types";
 import { getContent } from "../utils/getContent";
 import { getLocale } from "../utils/getLocale";
-import { I18nConfig, i18nMiddleware } from "./middleware";
+import { I18nConfig } from "./config";
+import { i18nMiddleware } from "./middleware";
 
-export type I18nAPI<
+export type I18nServerClient<
   TLocale extends string[],
   TDefault extends TLocale[number],
 > = Readonly<{
-  locales: TLocale;
-  defaultLocale: TDefault;
   middleware: (middleware?: NextMiddleware) => NextMiddleware;
   getLocale: () => Promise<TLocale[number]>;
   getContent: <T>(
@@ -17,14 +16,13 @@ export type I18nAPI<
   ) => Promise<T>;
 }>;
 
-export const defineConfig = <
+export const createI18nServerClient = <
   TLocale extends string[],
   TDefault extends TLocale[number],
 >(
   config: I18nConfig<TLocale, TDefault>,
-): I18nAPI<TLocale, TDefault> =>
+): I18nServerClient<TLocale, TDefault> =>
   ({
-    ...config,
     middleware: (middleware?: NextMiddleware) =>
       i18nMiddleware(config, middleware),
     getLocale: getLocale<TLocale[number]>,

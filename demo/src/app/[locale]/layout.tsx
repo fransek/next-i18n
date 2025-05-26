@@ -1,7 +1,6 @@
-import i18n from "@/lib/i18n";
+import { getLocale } from "@/i18n/server";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,29 +24,10 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={await i18n.getLocale()}>
+    <html lang={await getLocale()}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <header>
-          <nav>
-            <ul className="flex space-x-4">
-              <li>
-                <Link href="/en">English</Link>
-              </li>
-              <li>
-                <Link href="/sv">Svenska</Link>
-              </li>
-              <li>
-                <Link href="/es">Español</Link>
-              </li>
-              <li>
-                <Link href="/fr">Français</Link>
-              </li>
-            </ul>
-          </nav>
-          <hr />
-        </header>
         {children}
       </body>
     </html>

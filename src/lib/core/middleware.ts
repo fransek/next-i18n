@@ -5,11 +5,7 @@ import {
   NextResponse,
 } from "next/server";
 import { isValidLocale } from "../internals/internals";
-
-export interface I18nConfig<T extends string[], U extends T[number]> {
-  locales: Readonly<T>;
-  defaultLocale: U;
-}
+import { I18nConfig } from "./config";
 
 export const i18nMiddleware = <T extends string[], U extends T[number]>(
   { locales, defaultLocale }: I18nConfig<T, U>,

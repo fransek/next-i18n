@@ -32,8 +32,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "rollup -c",
-    "build:sandbox": "sh scripts/build-sandbox.sh",
-    "sandbox": "cd sandbox && pnpm dev",
+    "demo": "cd demo && pnpm dev",
     "dev": "rollup -c -w",
     "test": "vitest --run",
     "test:watch": "vitest",
