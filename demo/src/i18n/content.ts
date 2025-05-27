@@ -1,5 +1,5 @@
 import { LocalizedContent } from "@fransek/next-i18n/lib/types";
-import i18n from "./i18n";
+import i18nConfig from "./i18nConfig";
 
 const en = {
   greeting: "Hello world!",
@@ -17,4 +17,4 @@ export default {
   en,
   it,
   sv,
-} satisfies LocalizedContent<typeof i18n>;
+} satisfies LocalizedContent<typeof i18nConfig>;
