@@ -1,3 +1,4 @@
+import { LocalizedContent } from "@fransek/next-i18n/lib/types";
 import i18n from "./i18n";
 
 const en = {
@@ -16,4 +17,4 @@ export default {
   en,
   it,
   sv,
-} satisfies typeof i18n.inferContent;
+} satisfies LocalizedContent<typeof i18n>;

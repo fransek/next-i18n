@@ -5,10 +5,10 @@ import {
   NextResponse,
 } from "next/server";
 import { isValidLocale } from "../internals/internals";
-import { I18nConfig } from "./config";
+import { GenericI18nConfig } from "./config";
 
-export const i18nMiddleware = <T extends string[], U extends T[number]>(
-  { locales, defaultLocale }: I18nConfig<T, U>,
+export const i18nMiddleware = <TConfig extends GenericI18nConfig>(
+  { locales, defaultLocale }: TConfig,
   middleware?: NextMiddleware,
 ) =>
   (async (request, event): Promise<NextResponse> => {

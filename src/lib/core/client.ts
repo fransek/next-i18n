@@ -1,21 +1,14 @@
 import { useContent } from "../hooks/useContent";
 import { useLocale } from "../hooks/useLocale";
-import { LocalizedContent } from "../types";
-import { I18nConfig } from "./config";
+import { Locale, LocalizedContent } from "../types";
+import { GenericI18nConfig } from "./config";
 
-export type I18nClient<TConfig extends I18nConfig<string[], string>> =
-  Readonly<{
-    useLocale: () => TConfig["locales"][number];
-    useContent: <T>(
-      content: LocalizedContent<
-        T,
-        TConfig["locales"][number],
-        TConfig["defaultLocale"]
-      >,
-    ) => T;
-  }>;
+export type I18nClient<TConfig extends GenericI18nConfig> = Readonly<{
+  useLocale: () => Locale<TConfig>;
+  useContent: <T>(content: LocalizedContent<TConfig, T>) => T;
+}>;
 
-export const createI18nClient = <TConfig extends I18nConfig<string[], string>>(
+export const createI18nClient = <TConfig extends GenericI18nConfig>(
   config: TConfig,
 ): I18nClient<TConfig> => ({
   useLocale,
