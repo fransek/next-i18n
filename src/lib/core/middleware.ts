@@ -5,9 +5,9 @@ import {
   NextResponse,
 } from "next/server";
 import { isValidLocale } from "../internals/internals";
-import { GenericI18nConfig } from "./config";
+import { I18nConfig } from "./config";
 
-export const i18nMiddleware = <TConfig extends GenericI18nConfig>(
+export const i18nMiddleware = <TConfig extends I18nConfig>(
   { locales, defaultLocale }: TConfig,
   middleware?: NextMiddleware,
 ) =>
