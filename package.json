@@ -32,6 +32,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "rollup -c",
+    "build:demo": "sh scripts/build-demo.sh",
     "demo": "cd demo && pnpm dev",
     "dev": "rollup -c -w",
     "test": "vitest --run",

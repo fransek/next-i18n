@@ -2,7 +2,7 @@ import { GenericI18nConfig } from "../core/config";
 import { DefaultLocale, Locale, LocalizedContent } from "../types";
 import { getLocale } from "./getLocale";
 
-export const getContent = async <TContent, TConfig extends GenericI18nConfig>(
+export const getContent = async <TConfig extends GenericI18nConfig, TContent>(
   defaultLocale: DefaultLocale<TConfig>,
   content: LocalizedContent<TConfig, TContent>,
 ) => {
