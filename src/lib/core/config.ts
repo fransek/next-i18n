@@ -6,8 +6,6 @@ export type I18nConfig<
   defaultLocale: TDefault;
 };
 
-export type GenericI18nConfig = I18nConfig<string[], string>;
-
 export const defineI18nConfig = <
   TLocale extends string[],
   TDefault extends TLocale[number],
