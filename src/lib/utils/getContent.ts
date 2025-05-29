@@ -1,15 +1,12 @@
-import { LocalizedContent } from "../types";
+import { GenericI18nConfig } from "../core/config";
+import { DefaultLocale, Locale, LocalizedContent } from "../types";
 import { getLocale } from "./getLocale";
 
-export const getContent = async <
-  TContent,
-  TLocale extends string,
-  TDefault extends TLocale,
->(
-  defaultLocale: TDefault,
-  content: LocalizedContent<TContent, TLocale, TDefault>,
+export const getContent = async <TConfig extends GenericI18nConfig, TContent>(
+  defaultLocale: DefaultLocale<TConfig>,
+  content: LocalizedContent<TConfig, TContent>,
 ) => {
-  const locale = await getLocale<TLocale>();
+  const locale = await getLocale<Locale<TConfig>>();
   if (locale in content) {
     return content[locale];
   }

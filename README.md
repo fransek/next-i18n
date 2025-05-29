@@ -18,20 +18,37 @@ yarn add @fransek/next-i18n
 pnpm add @fransek/next-i18n
 ```
 
-2. Create a config file somewhere in your project, e.g. `src/lib/i18n.ts`:
+2. Create a config file somewhere in your project, e.g. `src/i18n/i18nConfig.ts`:
 
 ```ts
-import { createHooks, defineConfig } from "@fransek/next-i18n";
+import { defineI18nConfig } from "@fransek/next-i18n";
 
-export const i18n = defineConfig({
-  locales: ["en", "sv"],
+export default defineI18nConfig({
+  locales: ["en", "it", "sv"],
   defaultLocale: "en",
 });
-
-export const { useContent, useLocale } = createHooks(i18n);
 ```
 
-3. Add a middleware.ts file to your src directory and structure your files like this:
+3. Create a file for the server client, e.g. `src/i18n/server.ts`:
+
+```ts
+import { createI18nServerClient } from "@fransek/next-i18n";
+import i18nConfig from "./i18nConfig";
+
+export const { getContent, getLocale, middleware } =
+  createI18nServerClient(i18nConfig);
+```
+
+4. Create a file for the browser client, e.g. `src/i18n/client.ts`:
+
+```ts
+import { createI18nClient } from "@fransek/next-i18n";
+import i18nConfig from "./i18nConfig";
+
+export const { useContent, useLocale } = createI18nClient(i18nConfig);
+```
+
+5. Add a middleware.ts file to your src directory and organize your files like this:
 
 ```
 src/
@@ -42,12 +59,12 @@ src/
 |-- middleware.ts
 ```
 
-4. Add the following code to your middleware.ts file:
+6. Add the following code to your middleware.ts file:
 
 ```ts
-import { i18n } from "./lib/i18n";
+import { middleware } from "./i18n/server";
 
-export default i18n.middleware();
+export default middleware();
 
 export const config = {
   matcher: [
@@ -57,10 +74,10 @@ export const config = {
 };
 ```
 
-5. Add `lang={await i18n.getLocale()}` to the `<html>` tag in your layout.tsx file:
+7. Add `lang={await getLocale()}` to the `<html>` tag in your layout.tsx file:
 
 ```tsx
-import { i18n } from "@/lib/i18n";
+import { getLocale } from "@/i18n/server";
 
 export default async function RootLayout({
   children,
@@ -68,51 +85,75 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang={await i18n.getLocale()}>
+    <html lang={await getLocale()}>
       <body>{children}</body>
     </html>
   );
 }
 ```
 
-## Localized content
+## Browser Client
 
-### Server components
+### useContent
 
-```tsx
-import { i18n } from "@/lib/i18n";
-
-export default async function ServerComponent() {
-  const { greeting } = await i18n.getContent({
-    en: {
-      greeting: "Hello world",
-    },
-    sv: {
-      greeting: "Hej världen",
-    },
-  });
-
-  return <h1>{greeting}</h1>;
-}
-```
-
-### Client components
+The `useContent` hook is used to access localized content in your client components.
 
 ```tsx
 "use client";
 
-import { useContent } from "@/lib/i18n";
+import { useContent } from "@/i18n/client";
+
+const content = {
+  en: {
+    greeting: "Hello world!",
+  },
+  it: {
+    greeting: "Ciao mondo!",
+  },
+  sv: {
+    greeting: "Hej världen!",
+  },
+};
 
 export const ClientComponent = () => {
-  const { greeting } = useContent({
-    en: {
-      greeting: "Hello world",
-    },
-    sv: {
-      greeting: "Hej världen",
-    },
-  });
+  const { greeting } = useContent(content);
 
-  return <h1>{greeting}</h1>;
+  return <h3>{greeting}</h3>;
 };
 ```
+
+### useLocale
+
+The `useLocale` hook is used to access the current locale in your client components.
+
+## Server Client
+
+### getContent
+
+The `getContent` function is used to access localized content in your server components.
+
+```tsx
+import { getContent } from "@/i18n/server";
+
+const content = {
+  en: {
+    greeting: "Hello world!",
+  },
+  it: {
+    greeting: "Ciao mondo!",
+  },
+  sv: {
+    greeting: "Hej världen!",
+  },
+};
+
+export const ClientComponent = async () => {
+  const { greeting } = await getContent(content);
+
+  return <h3>{greeting}</h3>;
+};
+```
+
+### getLocale
+
+The `getLocale` function is used to access the current locale in your server components.

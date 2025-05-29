@@ -1,15 +1,12 @@
-import { LocalizedContent } from "../types";
+import { GenericI18nConfig } from "../core/config";
+import { DefaultLocale, Locale, LocalizedContent } from "../types";
 import { useLocale } from "./useLocale";
 
-export const useContent = <
-  TContent,
-  TLocale extends string,
-  TDefault extends TLocale,
->(
-  defaultLocale: TDefault,
-  content: LocalizedContent<TContent, TLocale, TDefault>,
+export const useContent = <TConfig extends GenericI18nConfig, TContent>(
+  defaultLocale: DefaultLocale<TConfig>,
+  content: LocalizedContent<TConfig, TContent>,
 ) => {
-  const locale = useLocale<TLocale>();
+  const locale = useLocale<Locale<TConfig>>();
   if (locale in content) {
     return content[locale];
   }
