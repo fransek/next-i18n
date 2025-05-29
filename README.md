@@ -91,3 +91,69 @@ export default async function RootLayout({
   );
 }
 ```
+
+## Browser Client
+
+### useContent
+
+The `useContent` hook is used to access localized content in your client components.
+
+```tsx
+"use client";
+
+import { useContent } from "@/i18n/client";
+
+const content = {
+  en: {
+    greeting: "Hello world!",
+  },
+  it: {
+    greeting: "Ciao mondo!",
+  },
+  sv: {
+    greeting: "Hej världen!",
+  },
+};
+
+export const ClientComponent = () => {
+  const { greeting } = useContent(content);
+
+  return <h3>{greeting}</h3>;
+};
+```
+
+### useLocale
+
+The `useLocale` hook is used to access the current locale in your client components.
+
+## Server Client
+
+### getContent
+
+The `getContent` function is used to access localized content in your server components.
+
+```tsx
+import { getContent } from "@/i18n/server";
+
+const content = {
+  en: {
+    greeting: "Hello world!",
+  },
+  it: {
+    greeting: "Ciao mondo!",
+  },
+  sv: {
+    greeting: "Hej världen!",
+  },
+};
+
+export const ClientComponent = async () => {
+  const { greeting } = await getContent(content);
+
+  return <h3>{greeting}</h3>;
+};
+```
+
+### getLocale
+
+The `getLocale` function is used to access the current locale in your server components.
