@@ -27,3 +27,30 @@ export const executeMiddleware = async (
 
   return NextResponse.next(res);
 };
+
+export const detectPreferredLocale = (
+  request: NextRequest,
+  locales: readonly string[],
+) => {
+  const acceptedLocales = request.headers
+    .get("accept-language")
+    ?.split(",")
+    .map((locale) => locale.split(";")[0]);
+
+  if (acceptedLocales) {
+    for (const acceptedLocale of acceptedLocales) {
+      if (isValidLocale(locales, acceptedLocale)) {
+        return acceptedLocale;
+      }
+      const lang = acceptedLocale.split("-")[0];
+      if (isValidLocale(locales, lang)) {
+        return lang;
+      }
+      for (const locale of locales) {
+        if (locale.startsWith(acceptedLocale)) {
+          return locale;
+        }
+      }
+    }
+  }
+};

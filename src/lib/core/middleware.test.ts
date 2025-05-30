@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { i18nMiddleware } from "./middleware";
 
 describe("i18nMiddleware", () => {
-  const locales = ["en", "fr", "es"] as const;
+  const locales = ["en", "fr", "es", "nl-NL"];
   const defaultLocale = "en";
   const middleware = i18nMiddleware({ locales, defaultLocale }, () => {
     const response = NextResponse.next();
@@ -56,6 +56,17 @@ describe("i18nMiddleware", () => {
 
     expect(response.headers.get("location")).toBe(
       "http://example.com/es/some-path",
+    );
+  });
+
+  it("should redirect to locale from accept-language header with region if valid and not in URL or cookie", async () => {
+    const request = createRequest("http://example.com/some-path", {
+      "accept-language": "de,nl;q=0.9,en;q=0.8",
+    });
+    const response = await middleware(request, event);
+
+    expect(response.headers.get("location")).toBe(
+      "http://example.com/nl-NL/some-path",
     );
   });
 

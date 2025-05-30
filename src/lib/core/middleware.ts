@@ -1,5 +1,9 @@
 import { NextMiddleware, NextResponse } from "next/server";
-import { executeMiddleware, isValidLocale } from "../internals/internals";
+import {
+  detectPreferredLocale,
+  executeMiddleware,
+  isValidLocale,
+} from "../internals/internals";
 import { I18nConfig } from "./config";
 
 export const i18nMiddleware = <TConfig extends I18nConfig>(
@@ -35,20 +39,12 @@ export const i18nMiddleware = <TConfig extends I18nConfig>(
     }
 
     // if no locale is set through the URL or cookies, check the accept-language header
-    const acceptedLocales = request.headers
-      .get("accept-language")
-      ?.split(",")
-      .map((locale) => locale.slice(0, 2));
-
-    if (acceptedLocales) {
-      for (const acceptedLocale of acceptedLocales) {
-        if (isValidLocale(locales, acceptedLocale)) {
-          request.nextUrl.pathname = `/${acceptedLocale}${pathname}`;
-          return NextResponse.redirect(request.nextUrl, {
-            headers: response.headers,
-          });
-        }
-      }
+    const preferredLocale = detectPreferredLocale(request, locales);
+    if (preferredLocale) {
+      request.nextUrl.pathname = `/${preferredLocale}${pathname}`;
+      return NextResponse.redirect(request.nextUrl, {
+        headers: response.headers,
+      });
     }
 
     // if no locale is set in the URL, cookie or accept-language header, redirect to the default locale
