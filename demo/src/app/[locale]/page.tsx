@@ -19,7 +19,7 @@ export default function Home() {
         </nav>
       </header>
       <main className="p-2">
-        <div>
+        <div className="flex flex-col gap-4">
           <h2 className="font-bold">Server</h2>
           <ServerComponent />
           <h2 className="font-bold">Client</h2>
