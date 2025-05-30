@@ -1,5 +1,5 @@
 import { NextFetchEvent, NextRequest, NextResponse } from "next/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { i18nMiddleware } from "./middleware";
 
 describe("i18nMiddleware", () => {
@@ -50,6 +50,17 @@ describe("i18nMiddleware", () => {
 
   it("should redirect to locale from accept-language header if valid and not in URL or cookie", async () => {
     const request = createRequest("http://example.com/some-path", {
+      "accept-language": "de,es;q=0.9,en;q=0.8",
+    });
+    const response = await middleware(request, event);
+
+    expect(response.headers.get("location")).toBe(
+      "http://example.com/es/some-path",
+    );
+  });
+
+  it("should redirect to locale from accept-language header without region if valid and not in URL or cookie", async () => {
+    const request = createRequest("http://example.com/some-path", {
       "accept-language": "de,es-ES;q=0.9,en;q=0.8",
     });
     const response = await middleware(request, event);
@@ -77,13 +88,22 @@ describe("i18nMiddleware", () => {
     expect(response.headers.get("location")).toBe(
       "http://example.com/en/some-path",
     );
-    expect(response.cookies.get("foo")?.value).toBe("bar");
   });
 
-  it("should run the provided middleware", async () => {
+  it("should handle chained middleware", async () => {
     const request = createRequest("http://example.com/some-path");
     const response = await middleware(request, event);
 
     expect(response.cookies.get("foo")?.value).toBe("bar");
+  });
+
+  it("should handle chained middleware that does not return a response", async () => {
+    const fn = vi.fn();
+    const middleware = i18nMiddleware({ locales, defaultLocale }, fn);
+
+    const request = createRequest("http://example.com/some-path");
+    await middleware(request, event);
+
+    expect(fn).toHaveBeenCalled();
   });
 });

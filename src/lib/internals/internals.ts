@@ -53,4 +53,5 @@ export const detectPreferredLocale = (
       }
     }
   }
+  return undefined;
 };
