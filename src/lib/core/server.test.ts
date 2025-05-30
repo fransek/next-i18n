@@ -21,6 +21,9 @@ describe("createI18nServerClient", () => {
     get: vi.fn(),
   };
 
+  const { getContent, getLocale, middleware } =
+    createI18nServerClient(mockConfig);
+
   beforeEach(() => {
     vi.clearAllMocks();
     (cookies as Mock).mockResolvedValue(mockCookieStore);
@@ -29,22 +32,19 @@ describe("createI18nServerClient", () => {
   describe("getLocale", () => {
     it("should return locale from cookie if valid", async () => {
       mockCookieStore.get.mockReturnValue({ value: "es" });
-      const client = createI18nServerClient(mockConfig);
-      const locale = await client.getLocale();
+      const locale = await getLocale();
       expect(locale).toBe("es");
     });
 
     it("should return default locale if cookie is invalid", async () => {
       mockCookieStore.get.mockReturnValue({ value: "invalid" });
-      const client = createI18nServerClient(mockConfig);
-      const locale = await client.getLocale();
+      const locale = await getLocale();
       expect(locale).toBe("en");
     });
 
     it("should return default locale if no cookie exists", async () => {
       mockCookieStore.get.mockReturnValue(undefined);
-      const client = createI18nServerClient(mockConfig);
-      const locale = await client.getLocale();
+      const locale = await getLocale();
       expect(locale).toBe("en");
     });
   });
@@ -58,15 +58,13 @@ describe("createI18nServerClient", () => {
 
     it("should return content for current locale", async () => {
       mockCookieStore.get.mockReturnValue({ value: "es" });
-      const client = createI18nServerClient(mockConfig);
-      const content = await client.getContent(mockContent);
+      const content = await getContent(mockContent);
       expect(content).toBe("Hola");
     });
 
     it("should fallback to default locale content if locale content not found", async () => {
       mockCookieStore.get.mockReturnValue({ value: "es" });
-      const client = createI18nServerClient(mockConfig);
-      const content = await client.getContent({ en: "Hello" });
+      const content = await getContent({ en: "Hello" });
       expect(content).toBe("Hello");
     });
   });
@@ -74,8 +72,7 @@ describe("createI18nServerClient", () => {
   describe("middleware", () => {
     it("should call i18nMiddleware with config and middleware", () => {
       const mockMiddleware = vi.fn();
-      const client = createI18nServerClient(mockConfig);
-      client.middleware(mockMiddleware);
+      middleware(mockMiddleware);
       expect(i18nMiddleware).toHaveBeenCalledWith(mockConfig, mockMiddleware);
     });
   });
