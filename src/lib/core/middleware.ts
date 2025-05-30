@@ -1,10 +1,5 @@
-import {
-  NextFetchEvent,
-  NextMiddleware,
-  NextRequest,
-  NextResponse,
-} from "next/server";
-import { isValidLocale } from "../internals/internals";
+import { NextMiddleware, NextResponse } from "next/server";
+import { executeMiddleware, isValidLocale } from "../internals/internals";
 import { I18nConfig } from "./config";
 
 export const i18nMiddleware = <TConfig extends I18nConfig>(
@@ -62,21 +57,3 @@ export const i18nMiddleware = <TConfig extends I18nConfig>(
       headers: response.headers,
     });
   }) satisfies NextMiddleware;
-
-const executeMiddleware = async (
-  middleware: NextMiddleware | undefined,
-  request: NextRequest,
-  event: NextFetchEvent,
-): Promise<NextResponse> => {
-  const res = await middleware?.(request, event);
-
-  if (!res) {
-    return NextResponse.next({
-      request: {
-        headers: request.headers,
-      },
-    });
-  }
-
-  return NextResponse.next(res);
-};
