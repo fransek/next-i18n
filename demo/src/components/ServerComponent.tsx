@@ -14,6 +14,7 @@ export const ServerComponent = async () => {
 
   return (
     <div>
+      <h2 className="font-bold">Server</h2>
       <h3>{greeting}</h3>
       <p>{date}</p>
       <p>

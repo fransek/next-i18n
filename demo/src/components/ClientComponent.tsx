@@ -15,6 +15,7 @@ export const ClientComponent = () => {
 
   return (
     <div>
+      <h2 className="font-bold">Client</h2>
       <h3>{greeting}</h3>
       <p>{date}</p>
       <p>

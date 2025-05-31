@@ -1,5 +1,6 @@
 import { useParams } from "next/navigation";
 import React, { ReactNode } from "react";
+import { getLocalizedContent } from "../internals/internals";
 import { Locale, LocalizedContent } from "../types";
 import { I18nConfig } from "./config";
 
@@ -9,11 +10,11 @@ export type I18nClient<TConfig extends I18nConfig> = Readonly<{
   Content: React.FC<{ children: LocalizedContent<TConfig, ReactNode> }>;
 }>;
 
-export const createI18nClient = <TConfig extends I18nConfig>({
-  defaultLocale,
-  fallbackLocales,
-  locales,
-}: TConfig): I18nClient<TConfig> => {
+export const createI18nClient = <TConfig extends I18nConfig>(
+  config: TConfig,
+): I18nClient<TConfig> => {
+  const { defaultLocale, locales } = config;
+
   const useLocale = () => {
     const { locale } = useParams();
     if (typeof locale === "string" && locales.includes(locale)) {
@@ -24,16 +25,7 @@ export const createI18nClient = <TConfig extends I18nConfig>({
 
   const useContent = <T>(content: LocalizedContent<TConfig, T>) => {
     const locale = useLocale();
-    if (locale in content) {
-      return content[locale];
-    }
-    if (fallbackLocales && fallbackLocales[locale]) {
-      const fallbackLocale = fallbackLocales[locale] as Locale<TConfig>;
-      if (fallbackLocale in content) {
-        return content[fallbackLocale];
-      }
-    }
-    return content[defaultLocale as Locale<TConfig>];
+    return getLocalizedContent(config, content, locale);
   };
 
   const Content: React.FC<{

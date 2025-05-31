@@ -76,6 +76,14 @@ describe("createI18nServerClient", () => {
       const content = await getContent({ en: "Hello" });
       expect(content).toBe("Hello");
     });
+
+    it("should return content for current locale with context function", async () => {
+      mockCookieStore.get.mockReturnValue({ value: "en" });
+      const content = await getContent(({ locale }) => ({
+        en: locale,
+      }));
+      expect(content).toBe("en");
+    });
   });
 
   describe("middleware", () => {

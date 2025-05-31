@@ -4,6 +4,8 @@ import {
   NextRequest,
   NextResponse,
 } from "next/server";
+import { I18nConfig } from "../core/config";
+import { Locale, LocalizedContent } from "../types";
 
 export const isValidLocale = (
   validLocales: Readonly<string[]>,
@@ -54,4 +56,23 @@ export const detectPreferredLocale = (
     }
   }
   return undefined;
+};
+
+export const getLocalizedContent = <TConfig extends I18nConfig, T>(
+  { fallbackLocales, defaultLocale }: TConfig,
+  content: LocalizedContent<TConfig, T>,
+  locale: Locale<TConfig>,
+) => {
+  const resolvedContent =
+    typeof content === "function" ? content({ locale }) : content;
+  if (locale in resolvedContent) {
+    return resolvedContent[locale];
+  }
+  if (fallbackLocales && fallbackLocales[locale]) {
+    const fallbackLocale = fallbackLocales[locale] as Locale<TConfig>;
+    if (fallbackLocale in resolvedContent) {
+      return resolvedContent[fallbackLocale];
+    }
+  }
+  return resolvedContent[defaultLocale as Locale<TConfig>];
 };

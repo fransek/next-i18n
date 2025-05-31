@@ -15,8 +15,11 @@ const geistMono = Geist_Mono({
 
 export const generateMetadata = async () =>
   await getContent<Metadata>({
-    en: {
-      title: "Demo | English",
+    "en-US": {
+      title: "Demo | English (US)",
+    },
+    "en-GB": {
+      title: "Demo | English (UK)",
     },
     it: {
       title: "Demo | Italiano",

@@ -67,6 +67,14 @@ describe("createI18nClient", () => {
       const { result } = renderHook(() => useContent({ en: "Hello" }));
       expect(result.current).toBe("Hello");
     });
+
+    it("returns content for current locale with context function", () => {
+      vi.mocked(useParams).mockReturnValue({ locale: "en" });
+      const { result } = renderHook(() =>
+        useContent(({ locale }) => ({ en: locale })),
+      );
+      expect(result.current).toBe("en");
+    });
   });
 
   describe("Content", () => {

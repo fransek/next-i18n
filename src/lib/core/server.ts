@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextMiddleware } from "next/server";
+import { getLocalizedContent } from "../internals/internals";
 import { Locale, LocalizedContent } from "../types";
 import { I18nConfig } from "./config";
 import { i18nMiddleware } from "./middleware";
@@ -13,7 +14,7 @@ export type I18nServerClient<TConfig extends I18nConfig> = Readonly<{
 export const createI18nServerClient = <TConfig extends I18nConfig>(
   config: TConfig,
 ): I18nServerClient<TConfig> => {
-  const { defaultLocale, locales, fallbackLocales } = config;
+  const { defaultLocale, locales } = config;
 
   const getLocale = async () => {
     const cookieStore = await cookies();
@@ -26,16 +27,7 @@ export const createI18nServerClient = <TConfig extends I18nConfig>(
 
   const getContent = async <T>(content: LocalizedContent<TConfig, T>) => {
     const locale = await getLocale();
-    if (locale in content) {
-      return content[locale];
-    }
-    if (fallbackLocales && fallbackLocales[locale]) {
-      const fallbackLocale = fallbackLocales[locale] as Locale<TConfig>;
-      if (fallbackLocale in content) {
-        return content[fallbackLocale];
-      }
-    }
-    return content[defaultLocale as Locale<TConfig>];
+    return getLocalizedContent(config, content, locale);
   };
 
   return {
