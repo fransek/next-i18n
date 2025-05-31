@@ -4,7 +4,7 @@
 [![Downloads](https://img.shields.io/npm/dm/@fransek/next-i18n.svg)](https://npmjs.com/package/@fransek/next-i18n)
 [![Minzipped size](https://img.shields.io/bundlephobia/minzip/@fransek/next-i18n)](https://bundlephobia.com/package/@fransek/next-i18n)
 
-A simple i18n library for Next.js.
+A simple and type-safe i18n library for Next.js.
 
 ## Setup
 
@@ -24,8 +24,8 @@ pnpm add @fransek/next-i18n
 import { defineI18nConfig } from "@fransek/next-i18n";
 
 export default defineI18nConfig({
-  locales: ["en", "it", "sv"],
-  defaultLocale: "en",
+  locales: ["en-US", "en-GB", "it", "sv"],
+  defaultLocale: "en-US",
 });
 ```
 
@@ -42,10 +42,12 @@ export const { getContent, getLocale, middleware } =
 4. Create a file for the browser client, e.g. `src/i18n/client.ts`:
 
 ```ts
+"use client";
+
 import { createI18nClient } from "@fransek/next-i18n";
 import i18nConfig from "./i18nConfig";
 
-export const { useContent, useLocale } = createI18nClient(i18nConfig);
+export const { Content, useContent, useLocale } = createI18nClient(i18nConfig);
 ```
 
 5. Add a middleware.ts file to your src directory and organize your files like this:
@@ -104,7 +106,10 @@ The `useContent` hook is used to access localized content in your client compone
 import { useContent } from "@/i18n/client";
 
 const content = {
-  en: {
+  "en-US": {
+    greeting: "Hello world!",
+  },
+  "en-GB": {
     greeting: "Hello world!",
   },
   it: {
@@ -126,6 +131,27 @@ export const ClientComponent = () => {
 
 The `useLocale` hook is used to access the current locale in your client components.
 
+### Content
+
+A thin wrapper component around the `useContent` hook for in-line localization.
+
+```tsx
+import { Content } from "@/i18n/client";
+
+export const Greeting = () => (
+  <h1>
+    <Content>
+      {{
+        "en-US": "Hello world!",
+        "en-GB": "Hello world!",
+        it: "Ciao mondo!",
+        sv: "Hej världen!",
+      }}
+    </Content>
+  </h1>
+);
+```
+
 ## Server Client
 
 ### getContent
@@ -136,7 +162,10 @@ The `getContent` function is used to access localized content in your server com
 import { getContent } from "@/i18n/server";
 
 const content = {
-  en: {
+  "en-US": {
+    greeting: "Hello world!",
+  },
+  "en-GB": {
     greeting: "Hello world!",
   },
   it: {
@@ -157,3 +186,7 @@ export const ClientComponent = async () => {
 ### getLocale
 
 The `getLocale` function is used to access the current locale in your server components.
+
+### middleware
+
+The `middleware` function is used to handle locale detection and redirection in your Next.js application. It should be exported from your middleware.ts file as shown in the setup instructions.

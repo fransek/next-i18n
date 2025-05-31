@@ -1,20 +1,27 @@
 import { LocalizedContent } from "@fransek/next-i18n/lib/types";
 import i18nConfig from "./i18nConfig";
 
-const en = {
-  greeting: "Hello world!",
-};
+const formatDate = (date: Date, locale: string) =>
+  new Intl.DateTimeFormat(locale, {
+    dateStyle: "full",
+  }).format(date);
 
-const it: typeof en = {
-  greeting: "Ciao mondo!",
-};
+interface Content {
+  greeting: string;
+  date: string;
+}
 
-const sv: typeof en = {
-  greeting: "Hej världen!",
-};
-
-export default {
-  en,
-  it,
-  sv,
-} satisfies LocalizedContent<typeof i18nConfig>;
+export default (({ locale }) => ({
+  "en-US": {
+    greeting: "Hello world!",
+    date: `Today's date is ${formatDate(new Date(), locale)}`,
+  },
+  it: {
+    greeting: "Ciao mondo!",
+    date: `La data di oggi è ${formatDate(new Date(), locale)}`,
+  },
+  sv: {
+    greeting: "Hej världen!",
+    date: `Dagens datum är ${formatDate(new Date(), locale)}`,
+  },
+})) satisfies LocalizedContent<typeof i18nConfig, Content>;

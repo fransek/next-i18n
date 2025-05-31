@@ -7,8 +7,11 @@ export default function Home() {
     <>
       <header>
         <nav className="flex gap-4 p-2">
-          <Link href="/en" lang="en">
-            English
+          <Link href="/en-US" lang="en">
+            English (US)
+          </Link>
+          <Link href="/en-GB" lang="en">
+            English (UK)
           </Link>
           <Link href="/it" lang="it">
             Italiano
@@ -19,10 +22,8 @@ export default function Home() {
         </nav>
       </header>
       <main className="p-2">
-        <div>
-          <h2 className="font-bold">Server</h2>
+        <div className="flex flex-col gap-4">
           <ServerComponent />
-          <h2 className="font-bold">Client</h2>
           <ClientComponent />
         </div>
       </main>

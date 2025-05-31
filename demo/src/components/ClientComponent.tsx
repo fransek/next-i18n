@@ -1,15 +1,37 @@
 "use client";
 
-import { useContent, useLocale } from "@/i18n/client";
+import { Content, useContent, useLocale } from "@/i18n/client";
 import content from "@/i18n/content";
+import { CSSProperties } from "react";
+import ReactCountryFlag from "react-country-flag";
 
 export const ClientComponent = () => {
-  const { greeting } = useContent(content);
+  const { greeting, date } = useContent(content);
   const locale = useLocale();
+  const flagStyle: CSSProperties = {
+    width: "3rem",
+    height: "3rem",
+  };
 
   return (
-    <h3>
-      {locale}: {greeting}
-    </h3>
+    <div>
+      <h2 className="font-bold">Client</h2>
+      <h3>{greeting}</h3>
+      <p>{date}</p>
+      <p>
+        {new Intl.NumberFormat(locale, {
+          style: "currency",
+          currency: "EUR",
+        }).format(1234567.89)}
+      </p>
+      <Content>
+        {{
+          "en-US": <ReactCountryFlag countryCode="US" style={flagStyle} svg />,
+          "en-GB": <ReactCountryFlag countryCode="GB" style={flagStyle} svg />,
+          it: <ReactCountryFlag countryCode="IT" style={flagStyle} svg />,
+          sv: <ReactCountryFlag countryCode="SE" style={flagStyle} svg />,
+        }}
+      </Content>
+    </div>
   );
 };
