@@ -40,7 +40,8 @@
     "coverage": "vitest --run --coverage --passWithNoTests",
     "lint": "eslint",
     "prepare": "husky",
-    "publish": "tsx scripts/publish.ts"
+    "publish": "tsx scripts/publish.ts",
+    "release": "tsx scripts/release.ts"
   },
   "devDependencies": {
     "@rollup/plugin-typescript": "^12.1.2",
