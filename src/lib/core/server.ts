@@ -13,13 +13,15 @@ export type I18nServerClient<TConfig extends I18nConfig> = Readonly<{
 export const createI18nServerClient = <TConfig extends I18nConfig>(
   config: TConfig,
 ): I18nServerClient<TConfig> => {
+  const { defaultLocale, locales, fallbackLocales } = config;
+
   const getLocale = async () => {
     const cookieStore = await cookies();
     const locale = cookieStore.get("locale")?.value;
-    if (typeof locale === "string" && config.locales.includes(locale)) {
+    if (typeof locale === "string" && locales.includes(locale)) {
       return locale as Locale<TConfig>;
     }
-    return config.defaultLocale as Locale<TConfig>;
+    return defaultLocale as Locale<TConfig>;
   };
 
   const getContent = async <T>(content: LocalizedContent<TConfig, T>) => {
@@ -27,7 +29,13 @@ export const createI18nServerClient = <TConfig extends I18nConfig>(
     if (locale in content) {
       return content[locale];
     }
-    return content[config.defaultLocale as Locale<TConfig>];
+    if (fallbackLocales && fallbackLocales[locale]) {
+      const fallbackLocale = fallbackLocales[locale] as Locale<TConfig>;
+      if (fallbackLocale in content) {
+        return content[fallbackLocale];
+      }
+    }
+    return content[defaultLocale as Locale<TConfig>];
   };
 
   return {

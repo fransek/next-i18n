@@ -25,7 +25,8 @@ export const ClientComponent = () => {
       </p>
       <Content>
         {{
-          en: <ReactCountryFlag countryCode="GB" style={flagStyle} svg />,
+          "en-US": <ReactCountryFlag countryCode="US" style={flagStyle} svg />,
+          "en-GB": <ReactCountryFlag countryCode="GB" style={flagStyle} svg />,
           it: <ReactCountryFlag countryCode="IT" style={flagStyle} svg />,
           sv: <ReactCountryFlag countryCode="SE" style={flagStyle} svg />,
         }}

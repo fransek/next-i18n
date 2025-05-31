@@ -1,4 +1,4 @@
-import { LocalizedContent } from "@fransek/next-i18n/lib/types";
+import { Locale, LocalizedContent } from "@fransek/next-i18n/lib/types";
 import i18nConfig from "./i18nConfig";
 
 const formatDate = (date: Date, locale: string) =>
@@ -11,11 +11,14 @@ interface Content {
   date: string;
 }
 
+const en = (locale: Locale<typeof i18nConfig>): Content => ({
+  greeting: "Hello world!",
+  date: `Today's date is ${formatDate(new Date(), locale)}`,
+});
+
 export default {
-  en: {
-    greeting: "Hello world!",
-    date: `Today's date is ${formatDate(new Date(), "en")}`,
-  },
+  "en-US": en("en-US"),
+  "en-GB": en("en-GB"),
   it: {
     greeting: "Ciao mondo!",
     date: `La data di oggi è ${formatDate(new Date(), "it")}`,

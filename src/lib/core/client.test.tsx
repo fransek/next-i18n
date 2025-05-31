@@ -14,6 +14,9 @@ describe("createI18nClient", () => {
   const config = {
     defaultLocale: "en",
     locales: ["en", "es", "fr"],
+    fallbackLocales: {
+      es: "fr",
+    },
   };
 
   const { Content, useContent, useLocale } = createI18nClient(config);
@@ -51,7 +54,15 @@ describe("createI18nClient", () => {
       expect(result.current).toBe("Hola");
     });
 
-    it("returns content for default locale if current locale content missing", () => {
+    it("returns content for fallback locale if current locale content missing", () => {
+      vi.mocked(useParams).mockReturnValue({ locale: "es" });
+      const { result } = renderHook(() =>
+        useContent({ en: "Hello", fr: "Bonjour" }),
+      );
+      expect(result.current).toBe("Bonjour");
+    });
+
+    it("returns content for default locale if current locale and fallback locale content missing", () => {
       vi.mocked(useParams).mockReturnValue({ locale: "es" });
       const { result } = renderHook(() => useContent({ en: "Hello" }));
       expect(result.current).toBe("Hello");

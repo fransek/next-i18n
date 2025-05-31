@@ -4,6 +4,7 @@ export type I18nConfig<
 > = {
   locales: Readonly<TLocale>;
   defaultLocale: TDefault;
+  fallbackLocales?: Partial<Record<TLocale[number], TLocale[number]>>;
 };
 
 export const defineI18nConfig = <

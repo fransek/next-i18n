@@ -7,8 +7,11 @@ export default function Home() {
     <>
       <header>
         <nav className="flex gap-4 p-2">
-          <Link href="/en" lang="en">
-            English
+          <Link href="/en-US" lang="en">
+            English (US)
+          </Link>
+          <Link href="/en-GB" lang="en">
+            English (UK)
           </Link>
           <Link href="/it" lang="it">
             Italiano

@@ -15,6 +15,9 @@ describe("createI18nServerClient", () => {
   const mockConfig = {
     defaultLocale: "en",
     locales: ["en", "es", "fr"],
+    fallbackLocales: {
+      es: "fr",
+    },
   };
 
   const mockCookieStore = {
@@ -62,7 +65,13 @@ describe("createI18nServerClient", () => {
       expect(content).toBe("Hola");
     });
 
-    it("should fallback to default locale content if locale content not found", async () => {
+    it("should return content for fallback locale if current locale content missing", async () => {
+      mockCookieStore.get.mockReturnValue({ value: "es" });
+      const content = await getContent({ en: "Hello", fr: "Bonjour" });
+      expect(content).toBe("Bonjour");
+    });
+
+    it("should return content for default locale if current locale and fallback locale content missing", async () => {
       mockCookieStore.get.mockReturnValue({ value: "es" });
       const content = await getContent({ en: "Hello" });
       expect(content).toBe("Hello");

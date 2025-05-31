@@ -11,6 +11,7 @@ export type I18nClient<TConfig extends I18nConfig> = Readonly<{
 
 export const createI18nClient = <TConfig extends I18nConfig>({
   defaultLocale,
+  fallbackLocales,
   locales,
 }: TConfig): I18nClient<TConfig> => {
   const useLocale = () => {
@@ -25,6 +26,12 @@ export const createI18nClient = <TConfig extends I18nConfig>({
     const locale = useLocale();
     if (locale in content) {
       return content[locale];
+    }
+    if (fallbackLocales && fallbackLocales[locale]) {
+      const fallbackLocale = fallbackLocales[locale] as Locale<TConfig>;
+      if (fallbackLocale in content) {
+        return content[fallbackLocale];
+      }
     }
     return content[defaultLocale as Locale<TConfig>];
   };
