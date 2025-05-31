@@ -81,8 +81,5 @@
       "eslint --fix",
       "bash -c tsc --noEmit"
     ]
-  },
-  "dependencies": {
-    "react-country-flag": "^3.1.0"
   }
 }
